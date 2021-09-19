@@ -10,27 +10,25 @@ fun main() {
         .readLines()
         .map(String::toInt)
 
-    val sum = 2020
-    val pair = findPairOfSum(numbers, sum)
+    val pair = numbers.findPairOfSum(2020)
 
     println(pair)
     println(pair.first * pair.second)
+
+//    val complement = numbers.map { 2020-it }
+//    val pair31 = complement.findPairOfSum(2020)
 //
-//    val sum3 = 2020
-//    val pair31 = findPairOfSum(numbers, sum)
+//    println(pair31)
+//    println(pair31.first * pair31.second)
 }
 
-fun findPairOfSum(numbers: List<Int>, sum: Int): Pair<Int, Int> {
-    val complements = numbers.associateBy { sum - it }
+fun List<Int>.findPairOfSum(sum: Int): Pair<Int, Int> {
+    val complements = associateBy { sum - it }
 
-    val pair = numbers.firstNotNullOf { number ->
+    return firstNotNullOf { number ->
         val complement = complements[number]
-        if (complement != null)
-            Pair(number, complement)
-        else null
+        if (complement != null) Pair(number, complement) else null
     }
-
-    return pair
 }
 
 //    println(numbers.associate { "key_$it" to "value_$it" })
