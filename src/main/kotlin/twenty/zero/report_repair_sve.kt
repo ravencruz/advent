@@ -11,21 +11,31 @@ fun main() {
         .map(String::toInt)
 
     val pair = numbers.findPairOfSum(2020)
-
     println(pair)
-    println(pair.first * pair.second)
+    println(pair?.let { (x, y) -> x * y })
 
-//    val complement = numbers.map { 2020-it }
-//    val pair31 = complement.findPairOfSum(2020)
-//
-//    println(pair31)
-//    println(pair31.first * pair31.second)
+    val complementPairs: Map<Int, Pair<Int, Int>?> =
+        numbers.associateWith { x ->
+            numbers.findPairOfSum(2020 - x)
+        }
+    println(complementPairs)
+    println(complementPairs)
+
+    val triple = numbers.findTripleOfSum()
+    println(triple?.let { (x, y, z) ->
+        println("$x * $y * $z")
+        x*y*z
+    })
 }
 
-fun List<Int>.findPairOfSum(sum: Int): Pair<Int, Int> {
+fun List<Int>.findTripleOfSum() = firstNotNullOfOrNull { x ->
+    findPairOfSum(2020 - x)?.let { Triple(x, it.first, it.second) }
+}
+
+fun List<Int>.findPairOfSum(sum: Int): Pair<Int, Int>? {
     val complements = associateBy { sum - it }
 
-    return firstNotNullOf { number ->
+    return firstNotNullOfOrNull { number ->
         val complement = complements[number]
         if (complement != null) Pair(number, complement) else null
     }
@@ -45,3 +55,4 @@ fun List<Int>.findPairOfSum(sum: Int): Pair<Int, Int> {
 //    } else null
 //}.first()
 //println(res)
+
