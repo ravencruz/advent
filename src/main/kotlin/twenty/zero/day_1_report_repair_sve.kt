@@ -6,7 +6,7 @@ import java.io.File
 fun main() {
     println("hello")
 
-    val numbers = File("src/main/resources/simple_input.txt")
+    val numbers = File("src/main/resources/day_1_simple_input.txt")
         .readLines()
         .map(String::toInt)
 
