@@ -4,36 +4,25 @@ import java.io.File
 
 fun main() {
     println("Day 2")
-//    var lines = File("src/main/resources/day_2_simple_input.txt").readLines()
-    var lines = File("src/main/resources/day_2_password_input.txt").readLines()
-//    var lines = File("src/main/resources/day_2_password_input_part_2.txt").readLines()
+    var lines = File("src/main/resources/day_2_simple_input.txt").readLines()
+//    var lines = File("src/main/resources/day_2_password_input.txt").readLines()
+//    var lines = File("src/main/day_2_password_philo.ktresources/day_2_password_input_part_2.txt").readLines()
     println(lines)
 
     val res = lines.count { line ->
-        val policyPassword = line.split(":")
-        val policy = policyPassword[0]
+        val (passwordPolicy, password) = line.split(": ")
 
-        val limitLetter = policy.split(" ")
-        val limit = limitLetter[0].split("-")
+        val limitSplit = passwordPolicy.split(" ")
+        val (limitLower, limitUpper) = limitSplit[0].split("-")
 
-        val limitLower = limit[0].toInt()
-        val limitUpper = limit[1].toInt()
-
-        val letter = limitLetter[1]
-        val password = policyPassword[1].trim()
-
+        val letter = limitSplit[1]
         println("low: $limitLower, upper: $limitUpper, letter: $letter, password: $password")
 
-//        val counter = password.count {
-//            it.toString() == letter
-//        }.also { println(it) }
-//
-//        counter in limitLower..limitUpper
+        val counter = password.count {
+            it.toString() == letter
+        }.also { println(it) }
 
-        exclusiveOr(
-            password[limitLower-1].toString() == letter,
-            password[limitUpper-1].toString() == letter
-        )
+        counter in limitLower.toInt()..limitUpper.toInt()
     }
     println("res: $res")
 }
